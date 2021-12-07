@@ -1,24 +1,40 @@
-<h2>Por País</h2>
+<div class="animate__animated animate__fadeIn animate__faster">
+    <h2>Por País</h2>
 
-<div class="row">
-    <div class="col">
-        <app-pais-input
-            (onEnter)="buscar( $event )"
-            (onDebounce)="sugerencias( $event )"
-            placeholder="Buscar País"
-        ></app-pais-input>
+    <div class="row">
+        <div class="col">
+            <app-pais-input
+                (onEnter)="buscar( $event )"
+                (onDebounce)="sugerencias( $event )"
+                placeholder="Buscar País"
+            ></app-pais-input>
+        </div>
     </div>
-</div>
 
-<hr>
-<div
-    *ngIf="hayError"
-    class="alert alert-danger">
-    No se encontró nada con el termino {{ termino }}
-</div>
+    <ul *ngIf="mostrarSugerencias" class="list-group">
+        <li *ngFor="let su of paisesSugeridos" class="list-group-item list-group-item-action">
+            <a [routerLink]="['/pais', su.cca2]" class="nav-link" >
+                {{ su.name.common }}
+            </a>
+        </li>
+        <li class="list-group-item list-group-item-action"
+        (click)="buscarSugerido( termino )">
+            <a class="nav-link" >
+                Buscar "{{ termino }}"
+            </a>
+        </li>
+    </ul>
 
-<div *ngIf="!hayError" class="row">
-    <div class="col">
-        <app-pais-tabla [paises]="paises"></app-pais-tabla>
+    <hr>
+    <div
+        *ngIf="hayError"
+        class="alert alert-danger">
+        No se encontró nada con el termino {{ termino }}
+    </div>
+
+    <div *ngIf="!hayError" class="row">
+        <div class="col">
+            <app-pais-tabla [paises]="paises"></app-pais-tabla>
+        </div>
     </div>
 </div>
